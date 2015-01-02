@@ -58,7 +58,6 @@ class Mikrob:
 
         while len(self.body) != body_lenght:
             __x, __y = self.body[0]
-            print self.energy
             rand = randint(0, len(self.genom)-1)
             gen = self.genom[rand]
             if gen == 'U':
@@ -72,7 +71,7 @@ class Mikrob:
 
             __pos = (__x, __y)
 
-            if __pos not in self.body:
+            if __pos not in self.body and self.__dead_unlocker(__pos):
                 self.body = [(__x, __y)] + self.body
             else:
                 pass
@@ -101,6 +100,13 @@ class Mikrob:
         new_mirkrob = Mikrob(new_body[0], len(new_body), self.genom)
         return new_mirkrob
 
+    def __dead_unlocker(self, __pos):
+        __x, __y = __pos
+        if (__x, __y - 1) not in self.body or (__x, __y + 1) not in self.body or (__x - 1, __y) not in self.body or (__x + 1, __y) not in self.body:
+            return True
+        else:
+            print "Deaaaaad"
+            return False
 
 class Bacteria:
     def __init__(self, x=width/2, y=height/2):
@@ -118,7 +124,7 @@ class Bacteria:
 
 
 bakterias = []
-mikrobs = [Mikrob((width/2, height/2), 2, 'LUDR')]
+mikrobs = [Mikrob((width/2, height/2), 10, 'LUDR')]
 
 for i in range(3000):
     bak = Bacteria(randint(0, width), randint(0, height))
